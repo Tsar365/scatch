@@ -25,8 +25,4 @@ router.get("/", (req, res) => {
   res.send("hey owner");
 });
 
-
-
-
-
 module.exports = router;
