@@ -16,10 +16,6 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.set("view engine", "ejs");
 
-// app.get("/", (req, res) => {
-//   res.send("hey");
-// });
-
 app.use("/owners", ownerRoutes);
 app.use("/users", userRoutes);
 app.use("/products", productRoutes);

@@ -78,7 +78,7 @@ npm run dev:silent
 
 
 
-.connect(${config.get("MONGODB_URI")}/scatch  -------->
+.connect(${config.get("MONGODB_URI")}/scatch) -------->
 
 config.get() comes from the node-config package, and it simply means:
 “Give me the value of this setting from my config files.”
@@ -92,3 +92,80 @@ Think of config.get() like:
 “Go to my config file and fetch this value for me.”
 
 
+
+
+
+
+if (process.env.NODE_ENV === "development")
+এটা check করে আপনার app এখন কোন mode এ চলছে।
+process.env
+Node.js এ environment variables access করার জন্য use হয়।
+
+NODE_ENV
+এটা একটা special environment variable।
+
+সাধারণত ৩টা mode বেশি use হয়:
+
+development
+production
+test
+
+if (process.env.NODE_ENV === "development")
+মানে:
+👉 যদি app development mode এ চলে, তাহলে নিচের code run হবে।
+
+router.post("/create", async function (req, res)
+এই route শুধু development এ available।
+মানে production এ গেলে কেউ owner create করতে পারবে না।
+এটা security purpose এ করা হয়।
+
+Example
+আপনি run করলেন:
+NODE_ENV=development nodemon app.js
+তখন:
+process.env.NODE_ENV
+এর value হবে:
+development
+তাই create route কাজ করবে।
+
+কিন্তু যদি production হয়?
+NODE_ENV=production node app.js
+তখন:
+process.env.NODE_ENV === "development"
+হবে:
+false
+তাই route create-ই হবে না।
+
+সহজভাবে
+এটা দিয়ে app কে different behavior দেওয়া যায়।
+যেমন:
+Mode        	: Use
+development  	: coding/testing
+production  	: live server
+test        	: automated testing
+
+
+Real World Example
+Development এ:
+console.log(errors);
+Production এ:
+show simple error message
+কারণ live server এ sensitive info দেখানো dangerous।
+
+একটা example দেখুন
+if (process.env.NODE_ENV === "development") {
+  console.log("Developer Mode");
+}
+Environment variable কোথায় থাকে?
+
+সাধারণত:
+.env
+file এ।
+যেমন:
+
+NODE_ENV=development
+PORT=3000
+JWT_SECRET=abc123
+Access করবেন এভাবে
+process.env.PORT
+process.env.JWT_SECRET
